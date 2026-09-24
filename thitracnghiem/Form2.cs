@@ -29,6 +29,7 @@ namespace thitracnghiem
             if(conlai <= TimeSpan.Zero)
             {
                 timerlambai.Stop();
+                LuuDapAn();
                 MessageBox.Show("Hết thời gian làm bài! Bài thi sẽ được nộp tự động.");
                 baithi.nopBai();
                 this.Close();
@@ -44,6 +45,7 @@ namespace thitracnghiem
             if(DateTime.Now >= baithi.thoigianketthuc)
             {
                 timerlambai.Stop();
+                LuuDapAn();
                 MessageBox.Show("Hết thời gian làm bài! Bài thi sẽ được nộp tự động.");
                 baithi.nopBai();
                 this.Close();
@@ -118,6 +120,7 @@ namespace thitracnghiem
                 HienThiCauHoi();
                 timerlambai.Start();
                 capnhatdongho();
+                this.ActiveControl = button3;
 
             }
             catch (Exception ex)

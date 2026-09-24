@@ -23,7 +23,7 @@ namespace thitracnghiem
         private const string connectionString = "Data Source=LAPTOP-FCIR975G;Initial Catalog=thitracnghiem;Integrated Security=True";
         public static List<cauhoi> Danhsach = new List<cauhoi>(); 
         public static Dictionary<int, string> DapAn = new Dictionary<int, string>();
-        public static readonly TimeSpan thoigianlambai = TimeSpan.FromSeconds(5);
+        public static readonly TimeSpan thoigianlambai = TimeSpan.FromSeconds(10);
         public static DateTime thoigianketthuc;
         public static bool danop = false;
 
