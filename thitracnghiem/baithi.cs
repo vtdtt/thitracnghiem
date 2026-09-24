@@ -21,8 +21,12 @@ namespace thitracnghiem
     public class baithi
     {
         private const string connectionString = "Data Source=LAPTOP-FCIR975G;Initial Catalog=thitracnghiem;Integrated Security=True";
-        public static List<cauhoi> Danhsach = new List<cauhoi>();
+        public static List<cauhoi> Danhsach = new List<cauhoi>(); 
         public static Dictionary<int, string> DapAn = new Dictionary<int, string>();
+        public static readonly TimeSpan thoigianlambai = TimeSpan.FromSeconds(5);
+        public static DateTime thoigianketthuc;
+        public static bool danop = false;
+
         public static void Batdau()
         {
             Danhsach.Clear();
@@ -55,9 +59,13 @@ namespace thitracnghiem
                     }
                 }
             }
+            danop = false;
+            thoigianketthuc = DateTime.Now + thoigianlambai;
         }
         public static void nopBai()
         {
+            if (danop) return;
+            danop = true;
             int tong = Danhsach.Count;
             int dung = 0;
             int chualam = 0;

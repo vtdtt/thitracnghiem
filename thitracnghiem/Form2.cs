@@ -7,15 +7,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace thitracnghiem
 {
     public partial class Form2 : Form
     {
         private int cauHoiHienTai = 0;
+        private System.Windows.Forms.Timer timerlambai;   
         public Form2()
         {
             InitializeComponent();
+            timerlambai = new System.Windows.Forms.Timer();
+            timerlambai.Interval = 1000; // 1 giây
+            timerlambai.Tick += timerlambai_Tick;
+            this.FormClosed += (s, e) => timerlambai.Dispose(); // Dừng timer khi form đóng
+        }
+        private void capnhatdongho()
+        {
+            TimeSpan conlai = baithi.thoigianketthuc - DateTime.Now;
+            if(conlai <= TimeSpan.Zero)
+            {
+                timerlambai.Stop();
+                MessageBox.Show("Hết thời gian làm bài! Bài thi sẽ được nộp tự động.");
+                baithi.nopBai();
+                this.Close();
+            }
+            else
+            {
+                label1.Text = string.Format("{0:D2}:{1:D2}:{2:D2}", conlai.Hours, conlai.Minutes, conlai.Seconds);
+            }
+        }
+        private void timerlambai_Tick(object sender, EventArgs e)
+        {
+            if (!this.Visible) return;
+            if(DateTime.Now >= baithi.thoigianketthuc)
+            {
+                timerlambai.Stop();
+                MessageBox.Show("Hết thời gian làm bài! Bài thi sẽ được nộp tự động.");
+                baithi.nopBai();
+                this.Close();
+            }
+            else
+            {
+                capnhatdongho();
+            }
         }
         private void HienThiCauHoi()
         {
@@ -80,6 +116,8 @@ namespace thitracnghiem
             {
                 baithi.Batdau();
                 HienThiCauHoi();
+                timerlambai.Start();
+                capnhatdongho();
 
             }
             catch (Exception ex)
@@ -98,6 +136,7 @@ namespace thitracnghiem
                 MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
+                if (baithi.danop) return;
                 baithi.nopBai();
                 this.Close();
             }
